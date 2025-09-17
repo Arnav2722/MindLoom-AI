@@ -1,0 +1,62 @@
+project_id = "aynhvozryqdfoibmhygq"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[auth]
+enabled = true
+port = 54324
+site_url = "http://127.0.0.1:3000"
+additional_redirect_urls = ["https://aynhvozryqdfoibmhygq.supabase.co"]
+jwt_expiry = 3600
+refresh_token_rotation_enabled = true
+anonymous_users_enabled = false
+api_external_url = "http://127.0.0.1:54324"
+
+[db]
+enabled = true
+port = 54322
+major_version = 15
+
+[edge_runtime]
+enabled = true
+port = 54323
+
+[functions]
+enabled = true
+port = 54321
+
+[functions.analyze-legal-document]
+verify_jwt = false
+
+[functions.content-scraper]
+verify_jwt = false
+
+[functions.content-transformer]
+verify_jwt = false
+
+[functions.ai-chat]
+verify_jwt = false
+
+[functions.file-processor]
+verify_jwt = false
+
+[realtime]
+enabled = true
+port = 54325
+max_concurrent_users = 200
+
+[storage]
+enabled = true
+port = 54326
+file_size_limit = "50MiB"
+
+[analytics]
+enabled = true
+port = 54327
+vector_port = 54328
+gw_port = 54329

@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Neo Brutalist Core Colors */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+
+    /* Brutal Brand Colors */
+    --primary: 314 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --primary-dark: 314 100% 35%;
+
+    --secondary: 60 100% 50%;
+    --secondary-foreground: 0 0% 0%;
+    --secondary-dark: 45 100% 40%;
+
+    --accent: 271 91% 65%;
+    --accent-foreground: 0 0% 0%;
+
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 20%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 0%;
+    --input: 0 0% 100%;
+    --ring: 314 100% 50%;
+
+    /* Brutal Design Tokens */
+    --shadow-brutal: 8px 8px 0px hsl(0 0% 0%);
+    --shadow-brutal-lg: 12px 12px 0px hsl(0 0% 0%);
+    --shadow-brutal-primary: 8px 8px 0px hsl(314 100% 35%);
+    --shadow-brutal-secondary: 8px 8px 0px hsl(45 100% 40%);
+    
+    --border-brutal: 4px solid hsl(0 0% 0%);
+    --border-brutal-thick: 6px solid hsl(0 0% 0%);
+    
+    --radius: 0px;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 314 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --primary-dark: 314 100% 35%;
+    --secondary: 60 100% 50%;
+    --secondary-foreground: 0 0% 0%;
+    --secondary-dark: 45 100% 40%;
+    --accent: 271 91% 65%;
+    --accent-foreground: 0 0% 100%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 80%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 100%;
+    --input: 0 0% 0%;
+    --ring: 314 100% 50%;
+    --shadow-brutal: 8px 8px 0px hsl(0 0% 100%);
+    --shadow-brutal-lg: 12px 12px 0px hsl(0 0% 100%);
+    --shadow-brutal-primary: 8px 8px 0px hsl(314 100% 70%);
+    --shadow-brutal-secondary: 8px 8px 0px hsl(60 100% 65%);
+    --border-brutal: 4px solid hsl(0 0% 100%);
+    --border-brutal-thick: 6px solid hsl(0 0% 100%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+  }
+
+  /* Neo Brutalist utilities */
+  .brutal-shadow {
+    box-shadow: var(--shadow-brutal);
+  }
+
+  .brutal-shadow-lg {
+    box-shadow: var(--shadow-brutal-lg);
+  }
+
+  .brutal-shadow-primary {
+    box-shadow: var(--shadow-brutal-primary);
+  }
+
+  .brutal-shadow-secondary {
+    box-shadow: var(--shadow-brutal-secondary);
+  }
+
+  .brutal-border {
+    border: var(--border-brutal);
+  }
+
+  .brutal-border-thick {
+    border: var(--border-brutal-thick);
+  }
+
+  /* Brutal animations */
+  .brutal-hover {
+    transition: all 0.1s ease;
+  }
+
+  .brutal-hover:hover {
+    transform: translate(-4px, -4px);
+  }
+
+  .brutal-hover:active {
+    transform: translate(0px, 0px);
+    box-shadow: 4px 4px 0px hsl(var(--border));
+  }
+
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+
+  /* Brutal grid patterns */
+  .brutal-pattern {
+    background-image: 
+      linear-gradient(45deg, transparent 25%, hsl(var(--border)) 25%, hsl(var(--border)) 50%, transparent 50%, transparent 75%, hsl(var(--border)) 75%);
+    background-size: 20px 20px;
+    opacity: 0.05;
+  }
+
+  .brutal-dots {
+    background-image: radial-gradient(circle, hsl(var(--border)) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.1;
+  }
+}
