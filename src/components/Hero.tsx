@@ -345,7 +345,7 @@ export function Hero() {
             </div>
           </h1>
 
-          <div className="bg-muted brutal-border brutal-shadow px-3 xs:px-4 sm:px-6 md:px-8 py-3 xs:py-4 sm:py-5 md:py-6 max-w-4xl mx-auto">
+          <div id="hero" className="bg-muted brutal-border brutal-shadow px-3 xs:px-4 sm:px-6 md:px-8 py-3 xs:py-4 sm:py-5 md:py-6 max-w-4xl mx-auto">
             <p className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-bold uppercase leading-tight">
               HACKATHON PROJECT: Transform any content into summaries, mindmaps, and more using AI. 
               Built with React, Supabase, and modern AI APIs.
@@ -386,11 +386,11 @@ export function Hero() {
                       <h3 className="text-xl font-black uppercase">PASTE ANY URL TO DESTROY</h3>
                     </div>
                     
-                    <div className="flex flex-col sm:flex-row gap-4">
-                      <div className="flex-1 relative">
+                    <div className="flex flex-col sm:flex-row gap-4 ">
+                      <div className="flex-1 relative border-black border-4">
                         <Input
                           type="url"
-                          placeholder="https://example.com/article or https://youtube.com/watch?v=..."
+                          placeholder="Enter the URL Here"
                           value={inputUrl}
                           onChange={(e) => setInputUrl(e.target.value)}
                           className="h-12 sm:h-16 text-sm sm:text-lg bg-background brutal-border font-bold pl-12 sm:pl-16"

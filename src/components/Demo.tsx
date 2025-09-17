@@ -409,7 +409,7 @@ export function Demo() {
                       <div className="text-xs text-muted-foreground">Accuracy</div>
                     </div>
                     <div>
-                      <div className="text-2xl font-bold text-secondary">
+                      <div className="text-2xl font-bold ">
                         {currentDemo === 'files' && transformationResult ? '1.8s' : '2.3s'}
                       </div>
                       <div className="text-xs text-muted-foreground">Process Time</div>

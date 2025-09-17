@@ -8,15 +8,16 @@ import { TransformationHistory } from "@/components/TransformationHistory";
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, signOut, isLoading } = useAuth();
-  const navItems = [{
+  const navItems = [
+    {
+    label: "Upload",
+    href: "#hero"
+  }, {
     label: "Features",
     href: "#features"
   }, {
     label: "Demo",
     href: "#demo"
-  }, {
-    label: "Upload",
-    href: "#upload"
   }];
   return <header className="fixed top-0 w-full z-50 bg-background brutal-border-thick border-t-0 border-l-0 border-r-0 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
@@ -43,9 +44,9 @@ export function Header() {
           {/* Action buttons */}
           <div className="flex items-center gap-2 sm:gap-3">
             {/* History button */}
-            <div className="hidden sm:block">
+            {/* <div className="hidden sm:block">
               <TransformationHistory />
-            </div>
+            </div> */}
 
             {!isLoading && (
               <>
@@ -53,9 +54,11 @@ export function Header() {
                   <>
                     {/* User info */}
                     <div className="hidden md:flex items-center gap-2 text-sm">
-                      <User className="w-4 h-4" />
+                      <User className="w-8 h-8" />
+                      {/* <User className="w-4 h-4" /> */}
                       <span className="font-medium truncate max-w-32">
-                        {user.email}
+                        {user.phone}
+                        {/* {user.email} */}
                       </span>
                     </div>
 
