@@ -62,13 +62,13 @@ export function Demo() {
       type: "Article Summary",
       duration: "30 sec read",
       content: `
-        **Key Points:**
+         Key Points: 
         • Advanced AI models can now understand context and nuance in human language
         • Natural language processing has improved dramatically with transformer architectures
         • Applications include content summarization, translation, and creative writing
         • Ethical considerations around AI bias and misinformation remain important challenges
         
-        **Main Insight:**
+         Main Insight: 
         The rapid advancement in AI language models represents a paradigm shift in how we interact with and process information, requiring both excitement and caution as we integrate these tools into daily workflows.
       `,
       icon: FileText,
@@ -79,21 +79,21 @@ export function Demo() {
       type: "Visual Structure", 
       duration: "Interactive",
       content: `
-        🧠 **AI Language Models**
-        ├── 📚 **Core Technologies**
+        🧠 ✅AI Language Models
+        ├── 📚 Core Technologies
         │   ├── Transformer Architecture
         │   ├── Attention Mechanisms
         │   └── Neural Networks
-        ├── 🎯 **Applications**
+        ├── 🎯 Applications
         │   ├── Content Summarization
         │   ├── Language Translation
         │   ├── Creative Writing
         │   └── Code Generation
-        ├── ⚡ **Benefits**
+        ├── ⚡ Benefits
         │   ├── Increased Productivity
         │   ├── Better Accessibility
         │   └── Enhanced Creativity
-        └── ⚠️ **Challenges**
+        └── ⚠️ Challenges
             ├── Bias & Fairness
             ├── Misinformation
             └── Ethical Use
@@ -106,21 +106,21 @@ export function Demo() {
       type: "Multi-format Support",
       duration: "Instant",
       content: transformationResult || `
-        📁 **Upload Any File Type:**
+        📁  Upload Any File Type: 
         
-        • **Documents**: PDF, DOCX, TXT files
-        • **Audio**: MP3, WAV files for transcription
-        • **Video**: MP4 files for analysis
-        • **Data**: JSON, CSV files for processing
-        • **Images**: PNG, JPG for OCR and analysis
+        •  Documents : PDF, DOCX, TXT files
+        •  Audio : MP3, WAV files for transcription
+        •  Video : MP4 files for analysis
+        •  Data : JSON, CSV files for processing
+        •  Images : PNG, JPG for OCR and analysis
         
-        **AI Processing:**
+         AI Processing: 
         • Automatic content extraction
         • Intelligent text analysis
         • Multi-modal understanding
         • Context-aware transformations
         
-        ${uploadedFiles.length > 0 ? `**Uploaded Files:** ${uploadedFiles.map(f => f.file.name).join(', ')}` : '**Drop a file above to start processing!**'}
+        ${uploadedFiles.length > 0 ? ` Uploaded Files:  ${uploadedFiles.map(f => f.file.name).join(', ')}` : ' Drop a file above to start processing! '}
       `,
       icon: Upload,
       color: "text-accent"
@@ -130,22 +130,22 @@ export function Demo() {
       type: "Learning Material",
       duration: "Study guide",
       content: `
-        📖 **Study Guide: AI Language Models**
+        📖  Study Guide: AI Language Models 
         
-        **Definition:**
+         Definition: 
         AI language models are neural networks trained to understand and generate human language by learning patterns from vast text datasets.
         
-        **Key Concepts to Remember:**
-        1. **Transformer Architecture** - The foundation of modern language models
-        2. **Attention Mechanisms** - How models focus on relevant information
-        3. **Fine-tuning** - Adapting models for specific tasks
+         Key Concepts to Remember: 
+        1.  Transformer Architecture  - The foundation of modern language models
+        2.  Attention Mechanisms  - How models focus on relevant information
+        3.  Fine-tuning  - Adapting models for specific tasks
         
-        **Study Questions:**
+         Study Questions: 
         • What makes transformer architecture different from previous approaches?
         • How do attention mechanisms improve model performance?
         • What are the main ethical considerations when deploying AI language models?
         
-        **Further Reading:**
+         Further Reading: 
         • "Attention Is All You Need" - Original transformer paper
         • AI Ethics guidelines from major tech companies
       `,
@@ -233,12 +233,12 @@ export function Demo() {
   const currentContent = demoContent[currentDemo as keyof typeof demoContent];
 
   return (
-    <section id="demo" className="py-24 px-6">
+    <section id="demo" className="py-24 px-6 font-unbound">
       <div className="max-w-6xl mx-auto space-y-16">
         {/* Section header */}
         <div className="text-center space-y-6">
-          <Badge variant="outline" className="bg-accent text-accent-foreground brutal-border font-black px-4 py-2">
-            <Play className="w-4 h-4 mr-2" />
+          <Badge variant="outline" className="bg-accent text-accent-foreground brutal-border font-black px-4 py-2 text-lg">
+            {/* <Play className="w-4 h-4 mr-2" /> */}
             Live Demo
           </Badge>
           
@@ -409,7 +409,7 @@ export function Demo() {
                       <div className="text-xs text-muted-foreground">Accuracy</div>
                     </div>
                     <div>
-                      <div className="text-2xl font-bold ">
+                      <div className="text-2xl font-bold text-secondary">
                         {currentDemo === 'files' && transformationResult ? '1.8s' : '2.3s'}
                       </div>
                       <div className="text-xs text-muted-foreground">Process Time</div>

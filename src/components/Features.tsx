@@ -110,7 +110,7 @@ export function Features() {
   ];
 
   return (
-    <section id="features" className="py-24 px-6 bg-background">
+    <section id="features" className="py-24 px-6 bg-background font-unbound">
       <div className="max-w-7xl mx-auto space-y-16">
         {/* Section header */}
         <div className="text-center space-y-8">
@@ -157,14 +157,6 @@ export function Features() {
         </div>
 
         {/* Feature grid */}
-        <div className="text-center space-y-8">
-          <div className="bg-primary text-primary-foreground brutal-border brutal-shadow px-6 py-3 inline-block transform -rotate-2">
-            <div className="flex items-center gap-3 text-4xl font-black uppercase">
-              <Sparkles className="w-5 h-5" />
-              Coming Soon
-            </div>
-          </div>
-        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {features.map((feature, index) => (
             <div key={index} className="bg-background brutal-border brutal-shadow hover:brutal-shadow-lg transition-all duration-100 p-6 group hover:-translate-y-1">

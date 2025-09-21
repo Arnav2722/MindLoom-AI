@@ -310,7 +310,7 @@ export function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center py-24 px-6">
+    <section className="relative min-h-screen flex flex-col items-center justify-center py-24 px-6 font-unbound">
       {/* Brutal background pattern */}
       <div className="absolute inset-0 brutal-pattern" />
       <div className="absolute inset-0 brutal-dots" />
@@ -345,7 +345,7 @@ export function Hero() {
             </div>
           </h1>
 
-          <div id="hero" className="bg-muted brutal-border brutal-shadow px-3 xs:px-4 sm:px-6 md:px-8 py-3 xs:py-4 sm:py-5 md:py-6 max-w-4xl mx-auto">
+          <div className="bg-muted brutal-border brutal-shadow px-3 xs:px-4 sm:px-6 md:px-8 py-3 xs:py-4 sm:py-5 md:py-6 max-w-4xl mx-auto">
             <p className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-bold uppercase leading-tight">
               HACKATHON PROJECT: Transform any content into summaries, mindmaps, and more using AI. 
               Built with React, Supabase, and modern AI APIs.
