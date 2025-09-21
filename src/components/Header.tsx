@@ -23,9 +23,9 @@ export function Header() {
         <div className="flex items-center justify-between">
           {/* Brutal Logo */}
           <div className="flex items-center gap-4 -ml-24">
-            <div className="bg-primary brutal-border brutal-shadow p-3 transform -rotate-12">
+            {/* <div className="bg-primary brutal-border brutal-shadow p-3 transform -rotate-12">
               <Zap className="w-8 h-8 text-primary-foreground" />
-            </div>
+            </div> */}
             <div>
               <h1 className="text-xl sm:text-xl font-black tracking-tighter uppercase">
                 MindLoom AI
