@@ -361,7 +361,7 @@ export function Hero() {
             </div>
           </h1>
 
-          <div className="bg-muted brutal-border brutal-shadow px-3 xs:px-4 sm:px-6 md:px-8 py-3 xs:py-4 sm:py-5 md:py-6 max-w-4xl mx-auto">
+          <div id="upload" className="bg-muted brutal-border brutal-shadow px-3 xs:px-4 sm:px-6 md:px-8 py-3 xs:py-4 sm:py-5 md:py-6 max-w-4xl mx-auto">
             <p className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-bold uppercase leading-tight">
               HACKATHON PROJECT: Transform any content into summaries, mindmaps, and more using AI. 
               Built with React, Supabase, and modern AI APIs.
@@ -553,10 +553,10 @@ export function Hero() {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-          <Button variant="brutal" size="lg" className="text-xl px-12 py-6 h-auto">
+          {/* <Button variant="brutal" size="lg" className="text-xl px-12 py-6 h-auto">
             <Sparkles className="w-6 h-6 mr-3" />
             TRY IT NOW
-          </Button>
+          </Button> */}
           
           <div className="bg-warning text-warning-foreground brutal-border brutal-shadow hover:brutal-shadow-lg px-12 py-6 text-xl font-black uppercase cursor-move select-none">
             <a 

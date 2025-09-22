@@ -1,15 +1,21 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  Zap, 
-  Github, 
-  MessageSquare, 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Zap,
+  Github,
+  MessageSquare,
   Mail,
   Heart,
   ExternalLink,
   Trophy,
   Code,
-  Lightbulb
+  Lightbulb,
 } from "lucide-react";
 
 export function Footer() {
@@ -30,20 +36,27 @@ export function Footer() {
                 <Trophy className="w-8 h-8 text-yellow-500" />
               </div>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Built with passion. This AI-powered content transformation tool 
-                showcases modern web technologies and intelligent processing capabilities.
+                Built with passion. This AI-powered content transformation tool
+                showcases modern web technologies and intelligent processing
+                capabilities.
               </p>
             </div>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="brutal" className="px-6 py-3 font-black">
                 <Github className="w-5 h-5 mr-2" />
-                VIEW SOURCE CODE
+                <a
+                  href="https://github.com/Arnav2722/MindLoom-AI"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  VIEW SOURCE CODE
+                </a>
               </Button>
-              <Button variant="outline" className="px-6 py-3 font-black">
+              {/* <Button variant="outline" className="px-6 py-3 font-black">
                 <Lightbulb className="w-5 h-5 mr-2" />
                 TECHNICAL DETAILS
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>
@@ -67,10 +80,10 @@ export function Footer() {
                 </p>
               </div>
             </div>
-            
+
             <p className="text-sm text-muted-foreground leading-relaxed">
-              An innovative AI-powered content transformation platform built to showcase 
-              modern web development and AI integration capabilities.
+              An innovative AI-powered content transformation platform built to
+              showcase modern web development and AI integration capabilities.
             </p>
           </div>
 
@@ -110,13 +123,14 @@ export function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-sm text-muted-foreground text-center md:text-left">
               <p className="flex items-center gap-1">
-                Made with <Heart className="w-4 h-4 text-red-500" /> by Catalyst Crew 101
+                Made with <Heart className="w-4 h-4 text-red-500" /> by Catalyst
+                Crew 101
               </p>
               <p className="mt-1">
                 Demonstrating AI innovation and web development skills
               </p>
             </div>
-            
+
             <div className="flex items-center gap-2">
               <Button variant="ghost" size="sm">
                 <Github className="w-4 h-4" />

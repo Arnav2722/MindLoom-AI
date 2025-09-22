@@ -1,6 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Sparkles, Menu, Zap, Github, MessageSquare, ChevronRight, LogIn, LogOut, User } from "lucide-react";
+import {
+  Menu,
+  Zap,
+  Github,
+  LogIn,
+  LogOut,
+  User,
+} from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
@@ -8,17 +14,22 @@ import { TransformationHistory } from "@/components/TransformationHistory";
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, signOut, isLoading } = useAuth();
-  const navItems = [{
-    label: "Features",
-    href: "#features"
-  }, {
-    label: "Demo",
-    href: "#demo"
-  }, {
-    label: "Upload",
-    href: "#upload"
-  }];
-  return <header className="fixed top-0 w-full z-50 bg-background brutal-border-thick border-t-0 border-l-0 border-r-0 backdrop-blur-sm font-unbound  ">
+  const navItems = [
+    {
+      label: "Features",
+      href: "#features",
+    },
+    {
+      label: "Demo",
+      href: "#demo",
+    },
+    {
+      label: "Upload",
+      href: "#upload",
+    },
+  ];
+  return (
+    <header className="fixed top-0 w-full z-50 bg-background brutal-border-thick border-t-0 border-l-0 border-r-0 backdrop-blur-sm font-unbound  ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex items-center justify-between">
           {/* Brutal Logo */}
@@ -35,9 +46,15 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
-            {navItems.map(item => <a key={item.label} href={item.href} className="text-xs xl:text-sm font-black uppercase text-foreground hover:text-primary transition-colors brutal-hover">
+            {navItems.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="text-xs xl:text-sm font-black uppercase text-foreground hover:text-primary transition-colors brutal-hover"
+              >
                 {item.label}
-              </a>)}
+              </a>
+            ))}
           </nav>
 
           {/* Action buttons */}
@@ -60,15 +77,29 @@ export function Header() {
                     </div>
 
                     {/* GitHub link for hackathon credibility */}
-                    <Button variant="outline" size="sm" className="hidden md:flex" asChild>
-                      <a href="https://github.com/Arnav2722/MindLoom-AI" target="_blank" rel="noopener noreferrer">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="hidden md:flex"
+                      asChild
+                    >
+                      <a
+                        href="https://github.com/Arnav2722/MindLoom-AI"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <Github className="w-4 h-4 mr-2" />
                         GitHub
                       </a>
                     </Button>
 
                     {/* Sign Out button */}
-                    <Button variant="outline" size="sm" onClick={signOut} className="font-black">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={signOut}
+                      className="font-black"
+                    >
                       <LogOut className="w-4 h-4 sm:mr-1" />
                       <span className="hidden sm:inline text-xs">OUT</span>
                     </Button>
@@ -76,7 +107,12 @@ export function Header() {
                 ) : (
                   <>
                     {/* Get Started button */}
-                    <Button variant="brutal" size="sm" asChild className="font-black">
+                    <Button
+                      variant="brutal"
+                      size="sm"
+                      asChild
+                      className="font-black"
+                    >
                       <Link to="/auth">
                         <LogIn className="w-4 h-4 sm:mr-1" />
                         <span className="hidden sm:inline text-xs">START</span>
@@ -88,23 +124,36 @@ export function Header() {
             )}
 
             {/* Mobile menu button */}
-            <Button variant="outline" size="sm" className="lg:hidden font-black" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="lg:hidden font-black"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
               <Menu className="w-5 h-5" />
             </Button>
           </div>
         </div>
 
         {/* Mobile Navigation */}
-        {isMobileMenuOpen && <div className="lg:hidden mt-4 pt-4 brutal-border border-l-0 border-r-0 border-b-0">
+        {isMobileMenuOpen && (
+          <div className="lg:hidden mt-4 pt-4 brutal-border border-l-0 border-r-0 border-b-0">
             <div className="flex flex-col space-y-4">
-              {navItems.map(item => <a key={item.label} href={item.href} className="text-sm font-black uppercase text-foreground hover:text-primary transition-colors py-2" onClick={() => setIsMobileMenuOpen(false)}>
+              {navItems.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="text-sm font-black uppercase text-foreground hover:text-primary transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
                   {item.label}
-                </a>)}
+                </a>
+              ))}
               <div className="flex flex-col gap-3 pt-4 brutal-border border-l-0 border-r-0 border-b-0">
                 <div className="sm:hidden">
                   <TransformationHistory />
                 </div>
-                
+
                 {!isLoading && (
                   <>
                     {user ? (
@@ -115,17 +164,31 @@ export function Header() {
                             {user.email}
                           </span>
                         </div>
-                        <Button variant="outline" size="sm" className="justify-start">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="justify-start"
+                        >
                           <Github className="w-4 h-4 mr-2" />
                           View on GitHub
                         </Button>
-                        <Button variant="outline" size="sm" onClick={signOut} className="justify-start">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={signOut}
+                          className="justify-start"
+                        >
                           <LogOut className="w-4 h-4 mr-2" />
                           Sign Out
                         </Button>
                       </>
                     ) : (
-                      <Button variant="brutal" size="sm" asChild className="justify-start">
+                      <Button
+                        variant="brutal"
+                        size="sm"
+                        asChild
+                        className="justify-start"
+                      >
                         <Link to="/auth">
                           <LogIn className="w-4 h-4 mr-2" />
                           Sign In / Get Started
@@ -136,7 +199,9 @@ export function Header() {
                 )}
               </div>
             </div>
-          </div>}
+          </div>
+        )}
       </div>
-    </header>;
+    </header>
+  );
 }

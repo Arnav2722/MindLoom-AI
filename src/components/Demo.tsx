@@ -431,7 +431,7 @@ export function Demo() {
         </div>
 
         {/* Try demo CTA */}
-        <div className="text-center space-y-6">
+        {/* <div className="text-center space-y-6">
           <h3 className="text-2xl font-bold">Ready to Transform Your Content?</h3>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="brutal" size="lg" className="text-lg px-8 font-black">
@@ -443,7 +443,7 @@ export function Demo() {
               WATCH DEMO
             </Button>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );
