@@ -1,4 +1,4 @@
-# Welcome to your Lovable project
+# Welcome to our project
 
 ## Project info
 
@@ -37,5 +37,5 @@ This project is built with:
 - React + TypeScript
 - Supabase Backend
 - Tailwind CSS
-- OpenAI/Gemini API
+- Perplexity/Gemini API
 - Vite Build Tool
