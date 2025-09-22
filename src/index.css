@@ -104,6 +104,87 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  /* Remove scrollbars for all browsers */
+  * {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+  
+  *::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/Opera */
+  }
+
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    position: relative;
+  }
+  
+  /* Fix responsive issues and prevent bleeding */
+  * {
+    box-sizing: border-box;
+  }
+  
+  /* Prevent horizontal overflow on all elements */
+  .container, .max-w-7xl, .max-w-6xl, .max-w-4xl, .max-w-2xl {
+    max-width: calc(100vw - 2rem);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  @media (min-width: 640px) {
+    .container, .max-w-7xl, .max-w-6xl, .max-w-4xl, .max-w-2xl {
+      max-width: calc(100vw - 3rem);
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+  
+  /* Fix header positioning */
+  header {
+    width: 100%;
+    max-width: 100vw;
+    left: 0;
+    right: 0;
+  }
+  
+  /* Ensure no elements exceed viewport width */
+  .brutal-shadow, .brutal-shadow-lg {
+    max-width: calc(100vw - 2rem);
+  }
+  
+  .brutal-border {
+    border-width: 2px;
+  }
+  
+  @media (max-width: 640px) {
+    .brutal-border {
+      border-width: 1px;
+    }
+    
+    .brutal-shadow {
+      box-shadow: 3px 3px 0px hsl(var(--border));
+    }
+    
+    .brutal-shadow-lg {
+      box-shadow: 4px 4px 0px hsl(var(--border));
+    }
+    
+    /* Reduce padding on mobile to prevent overflow */
+    .px-6 {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    
+    .px-8 {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', system-ui, sans-serif;
@@ -148,12 +229,45 @@ All colors MUST be HSL.
     transform: translate(0px, 0px);
     box-shadow: 4px 4px 0px hsl(var(--border));
   }
+  
+  /* Custom animations */
+  @keyframes brutal-bounce {
+    0%, 100% { transform: translateY(0) rotate(12deg); }
+    50% { transform: translateY(-10px) rotate(12deg); }
+  }
+  
+  @keyframes brutal-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+  }
+  
+  .animate-brutal-bounce {
+    animation: brutal-bounce 2s ease-in-out infinite;
+  }
+  
+  .animate-brutal-shake {
+    animation: brutal-shake 0.5s ease-in-out infinite;
+  }
 
   /* Typography */
   h1, h2, h3, h4, h5, h6 {
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: -0.02em;
+  }
+
+  /* Gradient utilities */
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+  }
+
+  .bg-gradient-secondary {
+    background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--primary)) 100%);
+  }
+
+  .bg-gradient-accent {
+    background: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--secondary)) 100%);
   }
 
   /* Brutal grid patterns */

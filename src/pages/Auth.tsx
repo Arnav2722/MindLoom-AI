@@ -2,13 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -21,34 +15,34 @@ export default function Auth() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    displayName: "",
+    displayName: ""
   });
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const validatePassword = (password: string): string | null => {
     if (password.length < 8) {
-      return "Password must be at least 8 characters long";
+      return 'Password must be at least 8 characters long';
     }
     if (!/(?=.*[a-z])/.test(password)) {
-      return "Password must contain at least one lowercase letter";
+      return 'Password must contain at least one lowercase letter';
     }
     if (!/(?=.*[A-Z])/.test(password)) {
-      return "Password must contain at least one uppercase letter";
+      return 'Password must contain at least one uppercase letter';
     }
     if (!/(?=.*\d)/.test(password)) {
-      return "Password must contain at least one number";
+      return 'Password must contain at least one number';
     }
     if (!/(?=.*[@$!%*?&])/.test(password)) {
-      return "Password must contain at least one special character (@$!%*?&)";
+      return 'Password must contain at least one special character (@$!%*?&)';
     }
     return null;
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     }));
   };
 
@@ -70,30 +64,29 @@ export default function Auth() {
       }
 
       const redirectUrl = `${window.location.origin}/`;
-
+      
       const { error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
           emailRedirectTo: redirectUrl,
           data: {
-            display_name: formData.displayName,
-          },
-        },
+            display_name: formData.displayName
+          }
+        }
       });
 
       if (error) {
         // Enhanced error handling
         let errorMessage = error.message;
-        if (error.message.includes("User already registered")) {
-          errorMessage =
-            "An account with this email already exists. Please sign in instead.";
-        } else if (error.message.includes("Invalid email")) {
-          errorMessage = "Please enter a valid email address.";
-        } else if (error.message.includes("Password should be")) {
-          errorMessage = "Password does not meet security requirements.";
+        if (error.message.includes('User already registered')) {
+          errorMessage = 'An account with this email already exists. Please sign in instead.';
+        } else if (error.message.includes('Invalid email')) {
+          errorMessage = 'Please enter a valid email address.';
+        } else if (error.message.includes('Password should be')) {
+          errorMessage = 'Password does not meet security requirements.';
         }
-
+        
         toast({
           title: "Sign Up Error",
           description: errorMessage,
@@ -106,7 +99,7 @@ export default function Auth() {
         });
       }
     } catch (error) {
-      console.error("Sign up error:", error);
+      console.error('Sign up error:', error);
       toast({
         title: "Error",
         description: "An unexpected error occurred",
@@ -129,7 +122,7 @@ export default function Auth() {
 
       if (error) {
         toast({
-          title: "Sign In Error",
+          title: "Sign In Error", 
           description: error.message,
           variant: "destructive",
         });
@@ -171,9 +164,7 @@ export default function Auth() {
 
         <Card className="brutal-border brutal-shadow">
           <CardHeader className="space-y-1 text-center">
-            <CardTitle className="text-2xl font-black uppercase">
-              Welcome
-            </CardTitle>
+            <CardTitle className="text-2xl font-black uppercase">Welcome</CardTitle>
             <CardDescription>
               Sign in to your account or create a new one
             </CardDescription>
@@ -181,12 +172,8 @@ export default function Auth() {
           <CardContent>
             <Tabs defaultValue="signin" className="space-y-6">
               <TabsList className="grid w-full grid-cols-2 brutal-border">
-                <TabsTrigger value="signin" className="font-black uppercase">
-                  Sign In
-                </TabsTrigger>
-                <TabsTrigger value="signup" className="font-black uppercase">
-                  Sign Up
-                </TabsTrigger>
+                <TabsTrigger value="signin" className="font-black uppercase">Sign In</TabsTrigger>
+                <TabsTrigger value="signup" className="font-black uppercase">Sign Up</TabsTrigger>
               </TabsList>
 
               <TabsContent value="signin">
@@ -233,11 +220,7 @@ export default function Auth() {
                         className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
                         onClick={() => setShowPassword(!showPassword)}
                       >
-                        {showPassword ? (
-                          <EyeOff className="h-4 w-4" />
-                        ) : (
-                          <Eye className="h-4 w-4" />
-                        )}
+                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </Button>
                     </div>
                   </div>
@@ -256,10 +239,7 @@ export default function Auth() {
               <TabsContent value="signup">
                 <form onSubmit={handleSignUp} className="space-y-4">
                   <div className="space-y-2">
-                    <Label
-                      htmlFor="displayName"
-                      className="text-sm font-semibold"
-                    >
+                    <Label htmlFor="displayName" className="text-sm font-semibold">
                       Display Name
                     </Label>
                     <div className="relative">
@@ -278,10 +258,7 @@ export default function Auth() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label
-                      htmlFor="email-signup"
-                      className="text-sm font-semibold"
-                    >
+                    <Label htmlFor="email-signup" className="text-sm font-semibold">
                       Email
                     </Label>
                     <div className="relative">
@@ -300,10 +277,7 @@ export default function Auth() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label
-                      htmlFor="password-signup"
-                      className="text-sm font-semibold"
-                    >
+                    <Label htmlFor="password-signup" className="text-sm font-semibold">
                       Password
                     </Label>
                     <div className="relative">
@@ -326,11 +300,7 @@ export default function Auth() {
                         className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
                         onClick={() => setShowPassword(!showPassword)}
                       >
-                        {showPassword ? (
-                          <EyeOff className="h-4 w-4" />
-                        ) : (
-                          <Eye className="h-4 w-4" />
-                        )}
+                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </Button>
                     </div>
                   </div>

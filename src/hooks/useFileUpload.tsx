@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 interface FileUploadOptions {
   maxSize?: number; // in MB
@@ -13,7 +14,7 @@ interface UploadedFile {
 }
 
 export function useFileUpload(options: FileUploadOptions = {}) {
-  const { maxSize = 10, allowedTypes = ['text/plain', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'] } = options;
+  const { maxSize = 15, allowedTypes = ['text/plain', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'] } = options;
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const { toast } = useToast();
@@ -31,24 +32,56 @@ export function useFileUpload(options: FileUploadOptions = {}) {
   }, [maxSize, allowedTypes]);
 
   const readFileContent = useCallback(async (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      
-      reader.onload = (e) => {
-        const content = e.target?.result as string;
-        resolve(content);
-      };
-      
-      reader.onerror = () => {
-        reject(new Error('Failed to read file'));
-      };
-      
-      if (file.type === 'text/plain') {
-        reader.readAsText(file);
-      } else {
-        // For other file types, we'll read as text for now
-        // In a real app, you'd use proper PDF/DOCX parsers
-        reader.readAsText(file);
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (file.type === 'text/plain' || file.type === 'application/json') {
+          const reader = new FileReader();
+          reader.onload = (e) => resolve(e.target?.result as string);
+          reader.onerror = () => reject(new Error('Failed to read file'));
+          reader.readAsText(file);
+        } else if (file.type === 'application/pdf' || file.type.includes('word') || file.type.includes('document')) {
+          // For PDF/DOCX files, use server-side processing
+          try {
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            const { data, error } = await supabase.functions.invoke('file-processor', {
+              body: formData
+            });
+            
+            if (error || !data?.success) {
+              throw new Error(data?.error || 'Server processing failed');
+            }
+            
+            resolve(data.extractedText || `Processed ${file.name}\nSize: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
+          } catch (serverError) {
+            // Fallback to basic client-side extraction
+            const arrayBuffer = await file.arrayBuffer();
+            const uint8Array = new Uint8Array(arrayBuffer);
+            const text = new TextDecoder('utf-8', { fatal: false }).decode(uint8Array);
+            
+            if (file.type === 'application/pdf') {
+              const textMatches = text.match(/BT[\s\S]*?ET/g) || [];
+              let extractedText = '';
+              for (const match of textMatches) {
+                const textContent = match.match(/\(([^)]+)\)/g);
+                if (textContent) {
+                  extractedText += textContent.map(t => t.slice(1, -1)).join(' ') + '\n';
+                }
+              }
+              resolve(extractedText || `PDF: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)\nBasic extraction - upload for full processing`);
+            } else {
+              const xmlMatches = text.match(/<w:t[^>]*>([^<]*)<\/w:t>/g) || [];
+              const extractedText = xmlMatches.map(match => match.replace(/<[^>]*>/g, '')).join(' ').trim();
+              resolve(extractedText || `DOCX: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)\nBasic extraction - upload for full processing`);
+            }
+          }
+        } else {
+          // For other file types, provide metadata
+          resolve(`File: ${file.name}\nType: ${file.type}\nSize: ${(file.size / 1024 / 1024).toFixed(2)} MB\n\nThis file type requires specialized processing.`);
+        }
+      } catch (error) {
+        reject(new Error(`Failed to process ${file.name}: ${error.message}`));
       }
     });
   }, []);

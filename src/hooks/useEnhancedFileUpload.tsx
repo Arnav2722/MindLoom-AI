@@ -19,7 +19,7 @@ interface UploadedFile {
 
 export function useEnhancedFileUpload(options: FileUploadOptions = {}) {
   const { 
-    maxSize = 50, 
+    maxSize = 15, 
     allowedTypes = [
       'text/plain', 
       'application/pdf', 
@@ -46,9 +46,9 @@ export function useEnhancedFileUpload(options: FileUploadOptions = {}) {
   const { user } = useAuth();
 
   const validateFile = useCallback(async (file: File): Promise<string | null> => {
-    // Stricter size validation (5MB limit for better security)
-    if (file.size > 5 * 1024 * 1024) {
-      return 'File size must be less than 5MB';
+    // File size validation (15MB limit)
+    if (file.size > 15 * 1024 * 1024) {
+      return 'File size must be less than 15MB';
     }
     
     // Empty file validation
@@ -138,24 +138,95 @@ export function useEnhancedFileUpload(options: FileUploadOptions = {}) {
   };
 
   const readFileContent = useCallback(async (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      
-      reader.onload = (e) => {
-        const content = e.target?.result as string;
-        resolve(content);
-      };
-      
-      reader.onerror = () => {
-        reject(new Error('Failed to read file'));
-      };
-      
-      // For text files, read as text
-      if (file.type === 'text/plain' || file.type === 'application/json') {
-        reader.readAsText(file);
-      } else {
-        // For binary files, read as data URL for preview
-        reader.readAsDataURL(file);
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (file.type === 'text/plain' || file.type === 'application/json' || file.type === 'text/csv') {
+          const reader = new FileReader();
+          reader.onload = (e) => resolve(e.target?.result as string);
+          reader.onerror = () => reject(new Error('Failed to read file'));
+          reader.readAsText(file);
+        } else if (file.type === 'application/pdf' || file.type.includes('word') || file.type.includes('document')) {
+          // Use server-side processing for better extraction
+          try {
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            const { data, error } = await supabase.functions.invoke('file-processor', {
+              body: formData
+            });
+            
+            if (error || !data?.success) {
+              throw new Error(data?.error || 'Server processing failed');
+            }
+            
+            resolve(data.extractedText || `Processed ${file.name}\nSize: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
+          } catch (serverError) {
+            // Enhanced fallback extraction
+            const arrayBuffer = await file.arrayBuffer();
+            const uint8Array = new Uint8Array(arrayBuffer);
+            const text = new TextDecoder('utf-8', { fatal: false }).decode(uint8Array);
+            
+            if (file.type === 'application/pdf') {
+              let extractedText = '';
+              const streamMatches = text.match(/stream([\s\S]*?)endstream/g) || [];
+              
+              for (const stream of streamMatches) {
+                const textMatches = stream.match(/\(([^)]+)\)/g) || [];
+                for (const match of textMatches) {
+                  const cleanText = match.slice(1, -1)
+                    .replace(/\\n/g, '\n')
+                    .replace(/\\r/g, '\r')
+                    .replace(/\\t/g, '\t')
+                    .replace(/\\\\/g, '\\')
+                    .replace(/\\\(/g, '(')
+                    .replace(/\\\)/g, ')');
+                  extractedText += cleanText + ' ';
+                }
+              }
+              
+              const tjMatches = text.match(/\(([^)]+)\)\s*Tj/g) || [];
+              for (const match of tjMatches) {
+                const textContent = match.match(/\(([^)]+)\)/)?.[1];
+                if (textContent) {
+                  extractedText += textContent + ' ';
+                }
+              }
+              
+              resolve(extractedText.trim() || `PDF: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)\nBasic extraction - server processing recommended`);
+            } else {
+              const textMatches = text.match(/<w:t[^>]*>([^<]*)<\/w:t>/g) || [];
+              const paragraphMatches = text.match(/<w:p[\s\S]*?<\/w:p>/g) || [];
+              
+              let extractedText = '';
+              for (const paragraph of paragraphMatches) {
+                const pTextMatches = paragraph.match(/<w:t[^>]*>([^<]*)<\/w:t>/g) || [];
+                const paragraphText = pTextMatches
+                  .map(match => match.replace(/<[^>]*>/g, ''))
+                  .join('')
+                  .trim();
+                if (paragraphText) {
+                  extractedText += paragraphText + '\n';
+                }
+              }
+              
+              resolve(extractedText.trim() || `DOCX: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)\nBasic extraction - server processing recommended`);
+            }
+          }
+        } else if (file.type.includes('image')) {
+          // For images, provide metadata and note OCR capability
+          resolve(`Image: ${file.name}\nType: ${file.type}\nSize: ${(file.size / 1024 / 1024).toFixed(2)} MB\n\nThis image can be processed for:\n• OCR text extraction\n• Visual content analysis\n• Object detection\n\nUpload to enable AI-powered image analysis.`);
+        } else if (file.type.includes('audio')) {
+          // For audio files, provide metadata
+          resolve(`Audio: ${file.name}\nType: ${file.type}\nSize: ${(file.size / 1024 / 1024).toFixed(2)} MB\n\nThis audio file can be processed for:\n• Speech-to-text transcription\n• Audio content analysis\n• Language detection\n\nUpload to enable AI-powered audio processing.`);
+        } else if (file.type.includes('video')) {
+          // For video files, provide metadata
+          resolve(`Video: ${file.name}\nType: ${file.type}\nSize: ${(file.size / 1024 / 1024).toFixed(2)} MB\n\nThis video file can be processed for:\n• Audio transcription\n• Visual content analysis\n• Scene detection\n\nUpload to enable AI-powered video processing.`);
+        } else {
+          // For other file types
+          resolve(`File: ${file.name}\nType: ${file.type}\nSize: ${(file.size / 1024 / 1024).toFixed(2)} MB\n\nThis file type requires specialized processing. Supported formats:\n• Documents: PDF, DOCX, TXT\n• Media: MP3, MP4, JPG, PNG\n• Data: JSON, CSV`);
+        }
+      } catch (error) {
+        reject(new Error(`Failed to process ${file.name}: ${error.message}`));
       }
     });
   }, []);

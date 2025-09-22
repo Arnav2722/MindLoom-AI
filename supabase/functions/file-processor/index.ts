@@ -150,22 +150,22 @@ Content extraction not supported for this file type. Supported types include:
     let systemPrompt = '';
     switch (transformationType) {
       case 'summary':
-        systemPrompt = 'You are an expert at creating concise, accurate summaries. Analyze the content and provide a clear summary with key points.';
+        systemPrompt = 'You are an expert content analyzer. You have direct access to file content. Create a comprehensive summary with key points, main arguments, and important details. Never say you cannot access files.';
         break;
       case 'mindmap':
-        systemPrompt = 'You are an expert at creating visual mind maps. Convert the content into a hierarchical mind map structure using emojis and indentation.';
-        break;
-      case 'podcast':
-        systemPrompt = 'You are an expert podcast scriptwriter. Convert the content into an engaging podcast script with natural dialogue and storytelling.';
+        systemPrompt = 'You are an expert mind map creator. You have direct access to file content. Convert the content into a hierarchical mind map structure using emojis and clear organization. Never say you cannot access files.';
         break;
       case 'notes':
-        systemPrompt = 'You are an expert at creating study materials. Convert the content into well-organized study notes with key concepts, definitions, and questions.';
+        systemPrompt = 'You are an expert educator. You have direct access to file content. Create comprehensive study notes with key concepts, definitions, questions, and learning objectives. Never say you cannot access files.';
+        break;
+      case 'legal':
+        systemPrompt = 'You are a legal expert. You have direct access to file content. Analyze legal documents and provide plain English explanations, risks, and key terms. Never say you cannot access files.';
         break;
       default:
-        systemPrompt = customPrompt || 'Analyze and transform the following content in a helpful way.';
+        systemPrompt = customPrompt || 'You have direct access to file content. Analyze and transform the content as requested. Never say you cannot access files.';
     }
 
-    const prompt = `${systemPrompt}\n\nContent to transform:\n${extractedContent}`;
+    const prompt = `${systemPrompt}\n\nYou have access to the following file content. Process it directly and provide the requested transformation. Do not say you cannot access files.\n\nFile: ${fileData.file_name}\nContent:\n${extractedContent}`;
 
     console.log('Sending request to Gemini API...');
 

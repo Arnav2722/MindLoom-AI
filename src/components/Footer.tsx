@@ -30,7 +30,7 @@ export function Footer() {
                 <Trophy className="w-8 h-8 text-yellow-500" />
               </div>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Built with passion during a hackathon. This AI-powered content transformation tool 
+                Built with passion. This AI-powered content transformation tool 
                 showcases modern web technologies and intelligent processing capabilities.
               </p>
             </div>
@@ -63,7 +63,7 @@ export function Footer() {
                   </span>
                 </h2>
                 <p className="text-xs text-muted-foreground">
-                  Hackathon Winner Project
+                  Made during Gen AI Exchange Hackathon by Google
                 </p>
               </div>
             </div>
@@ -110,7 +110,7 @@ export function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-sm text-muted-foreground text-center md:text-left">
               <p className="flex items-center gap-1">
-                Made with <Heart className="w-4 h-4 text-red-500" /> during a hackathon
+                Made with <Heart className="w-4 h-4 text-red-500" /> by Catalyst Crew 101
               </p>
               <p className="mt-1">
                 Demonstrating AI innovation and web development skills

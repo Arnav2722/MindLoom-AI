@@ -17,6 +17,12 @@ import {
   X
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { TextToSpeech } from '@/components/TextToSpeech';
+import { MindMapViewer } from '@/components/MindMapViewer';
+import { StudyNotesGenerator } from '@/components/StudyNotesGenerator';
+import { LegalAnalyzer } from '@/components/LegalAnalyzer';
+import { ContentAnalytics } from '@/components/ContentAnalytics';
+import { MultiLanguageSupport } from '@/components/MultiLanguageSupport';
 
 interface ResultsDisplayProps {
   result: {
@@ -154,29 +160,48 @@ export function ResultsDisplay({ result, onClose }: ResultsDisplayProps) {
               </div>
             </div>
             
-            {/* Action buttons */}
-            <div className="p-6 flex flex-wrap gap-3">
-              <Button variant="default" onClick={handleCopy}>
-                <Copy className="w-4 h-4 mr-2" />
-                Copy
-              </Button>
-              <Button variant="secondary" onClick={handleDownload}>
-                <Download className="w-4 h-4 mr-2" />
-                Download
-              </Button>
-              <Button variant="outline" onClick={handleShare}>
-                <Share2 className="w-4 h-4 mr-2" />
-                Share
-              </Button>
+            {/* Action buttons and Text-to-Speech */}
+            <div className="p-6 space-y-4">
+              <div className="flex flex-wrap gap-3">
+                <Button variant="default" onClick={handleCopy}>
+                  <Copy className="w-4 h-4 mr-2" />
+                  Copy
+                </Button>
+                <Button variant="secondary" onClick={handleDownload}>
+                  <Download className="w-4 h-4 mr-2" />
+                  Download
+                </Button>
+                <Button variant="outline" onClick={handleShare}>
+                  <Share2 className="w-4 h-4 mr-2" />
+                  Share
+                </Button>
+              </div>
+              
+              {/* Text to Speech */}
+              <TextToSpeech 
+                text={result.transformedContent} 
+                title={result.title}
+              />
             </div>
           </div>
 
           {/* Content */}
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="brutal-border mb-8">
-              <TabsTrigger value="content">Transformed Content</TabsTrigger>
+            <TabsList className="brutal-border mb-8 grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
+              <TabsTrigger value="content">Content</TabsTrigger>
+              {result.transformationType === 'mindmap' && (
+                <TabsTrigger value="mindmap">Mind Map</TabsTrigger>
+              )}
+              {result.transformationType === 'notes' && (
+                <TabsTrigger value="studynotes">Study Notes</TabsTrigger>
+              )}
+              {result.transformationType === 'legal' && (
+                <TabsTrigger value="legalanalysis">Legal Analysis</TabsTrigger>
+              )}
+              <TabsTrigger value="analytics">Analytics</TabsTrigger>
+              <TabsTrigger value="translate">Translate</TabsTrigger>
               {result.relatedQuestions && result.relatedQuestions.length > 0 && (
-                <TabsTrigger value="questions">Related Questions</TabsTrigger>
+                <TabsTrigger value="questions">Questions</TabsTrigger>
               )}
             </TabsList>
 
@@ -196,6 +221,47 @@ export function ResultsDisplay({ result, onClose }: ResultsDisplayProps) {
                   </div>
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            {result.transformationType === 'mindmap' && (
+              <TabsContent value="mindmap">
+                <MindMapViewer 
+                  content={result.transformedContent}
+                  title={result.title}
+                />
+              </TabsContent>
+            )}
+
+            {result.transformationType === 'notes' && (
+              <TabsContent value="studynotes">
+                <StudyNotesGenerator 
+                  content={result.transformedContent}
+                  title={result.title}
+                />
+              </TabsContent>
+            )}
+
+            {result.transformationType === 'legal' && (
+              <TabsContent value="legalanalysis">
+                <LegalAnalyzer 
+                  content={result.transformedContent}
+                  title={result.title}
+                />
+              </TabsContent>
+            )}
+
+            <TabsContent value="analytics">
+              <ContentAnalytics 
+                content={result.transformedContent}
+                title={result.title}
+              />
+            </TabsContent>
+
+            <TabsContent value="translate">
+              <MultiLanguageSupport 
+                content={result.transformedContent}
+                title={result.title}
+              />
             </TabsContent>
 
             {result.relatedQuestions && result.relatedQuestions.length > 0 && (

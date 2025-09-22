@@ -22,12 +22,12 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex items-center justify-between">
           {/* Brutal Logo */}
-          <div className="flex items-center gap-4 -ml-24">
-            {/* <div className="bg-primary brutal-border brutal-shadow p-3 transform -rotate-12">
-              <Zap className="w-8 h-8 text-primary-foreground" />
-            </div> */}
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="bg-primary brutal-border brutal-shadow p-2 sm:p-3 transform -rotate-12">
+              <Zap className="w-6 h-6 sm:w-8 sm:h-8 text-primary-foreground" />
+            </div>
             <div>
-              <h1 className="text-xl sm:text-xl font-black tracking-tighter uppercase">
+              <h1 className="text-lg sm:text-xl font-black tracking-tighter uppercase">
                 MindLoom AI
               </h1>
             </div>
@@ -41,7 +41,7 @@ export function Header() {
           </nav>
 
           {/* Action buttons */}
-          <div className="flex items-center gap-2 sm:gap-3 -mr-48">
+          <div className="flex items-center gap-1 sm:gap-2 md:gap-3">
             {/* History button */}
             <div className="hidden sm:block">
               <TransformationHistory />
@@ -60,33 +60,26 @@ export function Header() {
                     </div>
 
                     {/* GitHub link for hackathon credibility */}
-                    <Button variant="outline" size="sm" className="hidden sm:flex">
-                      <Github className="w-4 h-4 mr-2" />
-                      GitHub
+                    <Button variant="outline" size="sm" className="hidden md:flex" asChild>
+                      <a href="https://github.com/Arnav2722/MindLoom-AI" target="_blank" rel="noopener noreferrer">
+                        <Github className="w-4 h-4 mr-2" />
+                        GitHub
+                      </a>
                     </Button>
 
                     {/* Sign Out button */}
                     <Button variant="outline" size="sm" onClick={signOut} className="font-black">
-                      <LogOut className="w-4 h-4 sm:mr-2" />
-                      <span className="hidden sm:inline">SIGN OUT</span>
+                      <LogOut className="w-4 h-4 sm:mr-1" />
+                      <span className="hidden sm:inline text-xs">OUT</span>
                     </Button>
                   </>
                 ) : (
                   <>
-                    {/* Sign In button */}
-                    <Button variant="outline" size="sm" asChild className="font-black">
-                      <Link to="/auth">
-                        <LogIn className="w-4 h-4 sm:mr-2" />
-                        <span className="hidden sm:inline">SIGN IN</span>
-                      </Link>
-                    </Button>
-
                     {/* Get Started button */}
                     <Button variant="brutal" size="sm" asChild className="font-black">
                       <Link to="/auth">
-                        <span className="hidden sm:inline">GET STARTED</span>
-                        <span className="sm:hidden">START</span>
-                        <ChevronRight className="w-4 h-4 ml-1" />
+                        <LogIn className="w-4 h-4 sm:mr-1" />
+                        <span className="hidden sm:inline text-xs">START</span>
                       </Link>
                     </Button>
                   </>

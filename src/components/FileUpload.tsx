@@ -12,34 +12,43 @@ import {
   CheckCircle
 } from 'lucide-react';
 import { useFileUpload } from '@/hooks/useFileUpload';
+import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
 interface FileUploadProps {
   onFilesUploaded: (files: { file: File; content: string; type: string }[]) => void;
+  onFilesChanged?: (files: { file: File; content: string; type: string }[]) => void;
   className?: string;
   maxFiles?: number;
 }
 
-export function FileUpload({ onFilesUploaded, className, maxFiles = 5 }: FileUploadProps) {
+export function FileUpload({ onFilesUploaded, onFilesChanged, className, maxFiles = 5 }: FileUploadProps) {
+  const { toast } = useToast();
   const { uploadFiles, removeFile, uploadedFiles, isUploading } = useFileUpload({
-    maxSize: 10,
+    maxSize: 15,
     allowedTypes: [
       'text/plain',
       'application/pdf',
       'application/msword',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       'text/csv',
-      'application/json'
+      'application/json',
+      'text/markdown'
     ]
   });
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (uploadedFiles.length + acceptedFiles.length > maxFiles) {
+      toast({
+        title: "Too Many Files",
+        description: `Maximum ${maxFiles} files allowed`,
+        variant: "destructive",
+      });
       return;
     }
     
     await uploadFiles(acceptedFiles);
-  }, [uploadFiles, uploadedFiles.length, maxFiles]);
+  }, [uploadFiles, uploadedFiles.length, maxFiles, toast]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -49,16 +58,17 @@ export function FileUpload({ onFilesUploaded, className, maxFiles = 5 }: FileUpl
 
   // Notify parent when files change
   React.useEffect(() => {
-    if (uploadedFiles.length > 0) {
-      onFilesUploaded(uploadedFiles);
+    console.log('FileUpload useEffect - uploadedFiles:', uploadedFiles);
+    onFilesUploaded(uploadedFiles);
+    if (onFilesChanged) {
+      onFilesChanged(uploadedFiles);
     }
-  }, [uploadedFiles, onFilesUploaded]);
+  }, [uploadedFiles, onFilesUploaded, onFilesChanged]);
 
   const getFileIcon = (type: string) => {
-    if (type.includes('pdf')) return '📄';
-    if (type.includes('word')) return '📝';
-    if (type.includes('text')) return '📃';
-    if (type.includes('csv')) return '📊';
+    if (type === 'pdf') return '📄';
+    if (type === 'document') return '📝';
+    if (type === 'text') return '📃';
     return '📄';
   };
 
@@ -96,8 +106,8 @@ export function FileUpload({ onFilesUploaded, className, maxFiles = 5 }: FileUpl
                 : `Drag files here or click to browse`
               }
             </p>
-            <p className="text-sm text-muted-foreground">
-              Supports: PDF, DOC, DOCX, TXT, CSV, JSON (max 10MB each)
+            <p className="text-sm text-muted-foreground font-bold">
+              Supports: PDF, DOC, DOCX, TXT, CSV, JSON, MD (max 15MB each)
             </p>
             <p className="text-xs text-muted-foreground">
               {uploadedFiles.length}/{maxFiles} files uploaded
@@ -142,7 +152,7 @@ export function FileUpload({ onFilesUploaded, className, maxFiles = 5 }: FileUpl
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <span>{formatFileSize(uploadedFile.file.size)}</span>
                     <Badge variant="secondary" className="text-xs">
-                      {uploadedFile.type}
+                      {uploadedFile.type.toUpperCase()}
                     </Badge>
                   </div>
                 </div>
@@ -151,7 +161,9 @@ export function FileUpload({ onFilesUploaded, className, maxFiles = 5 }: FileUpl
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => removeFile(index)}
+                onClick={() => {
+                  removeFile(index);
+                }}
                 className="flex-shrink-0 ml-2"
               >
                 <X className="w-4 h-4" />

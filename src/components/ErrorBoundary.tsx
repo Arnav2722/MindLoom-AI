@@ -1,95 +1,55 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import { AlertTriangle, RefreshCw } from 'lucide-react';
 
-interface Props {
-  children: ReactNode;
-}
-
-interface State {
+interface ErrorBoundaryState {
   hasError: boolean;
-  error: Error | null;
-  errorInfo: ErrorInfo | null;
+  error?: Error;
 }
 
-export class ErrorBoundary extends Component<Props, State> {
-  public state: State = {
-    hasError: false,
-    error: null,
-    errorInfo: null,
-  };
+interface ErrorBoundaryProps {
+  children: React.ReactNode;
+}
 
-  public static getDerivedStateFromError(error: Error): State {
-    return {
-      hasError: true,
-      error,
-      errorInfo: null,
-    };
+export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
   }
 
-  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
-    this.setState({
-      error,
-      errorInfo,
-    });
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
   }
 
-  public render() {
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('Error caught by boundary:', error, errorInfo);
+  }
+
+  render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center px-6 py-24 font-unbound">
-          <Card className="max-w-2xl mx-auto brutal-border brutal-shadow-lg">
-            <CardHeader className="text-center">
-              <div className="bg-destructive text-destructive-foreground brutal-border p-4 mb-4 mx-auto w-fit">
-                <AlertTriangle className="w-8 h-8" />
-              </div>
-              <CardTitle className="text-2xl font-black uppercase">
-                SOMETHING WENT WRONG
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="bg-muted brutal-border p-4">
-                <p className="text-center font-bold">
-                  The application encountered an unexpected error. Don't worry, we've been notified!
-                </p>
-              </div>
-              
-              {process.env.NODE_ENV === 'development' && this.state.error && (
-                <div className="bg-background brutal-border p-4 space-y-2">
-                  <h4 className="font-black uppercase text-sm">Error Details:</h4>
-                  <pre className="text-xs text-destructive font-mono overflow-auto">
-                    {this.state.error.toString()}
-                  </pre>
-                  {this.state.errorInfo && (
-                    <pre className="text-xs text-muted-foreground font-mono overflow-auto">
-                      {this.state.errorInfo.componentStack}
-                    </pre>
-                  )}
-                </div>
-              )}
-              
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button
-                  variant="brutal"
-                  onClick={() => window.location.reload()}
-                  className="w-full sm:w-auto"
-                >
-                  <RefreshCw className="w-4 h-4 mr-2" />
-                  RELOAD PAGE
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => window.location.href = '/'}
-                  className="w-full sm:w-auto"
-                >
-                  <Home className="w-4 h-4 mr-2" />
-                  GO HOME
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="min-h-screen flex items-center justify-center p-6 bg-background">
+          <div className="max-w-md w-full bg-background brutal-border brutal-shadow p-8 text-center space-y-6">
+            <div className="bg-destructive brutal-border p-4 mx-auto w-fit">
+              <AlertTriangle className="w-12 h-12 text-destructive-foreground" />
+            </div>
+            
+            <div className="space-y-4">
+              <h1 className="text-2xl font-black uppercase">Something Went Wrong</h1>
+              <p className="text-sm font-bold text-muted-foreground">
+                The application encountered an unexpected error. Please try refreshing the page.
+              </p>
+            </div>
+            
+            <Button 
+              variant="brutal" 
+              onClick={() => window.location.reload()}
+              className="w-full"
+            >
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Refresh Page
+            </Button>
+          </div>
         </div>
       );
     }
